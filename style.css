@@ -179,27 +179,18 @@ body {
 
 
 /* =========================================
-   RESPONSIVIDADE (CELULAR E TABLET)
+   RESPONSIVIDADE (CELULAR E TABLET) CORRIGIDA
 ========================================= */
 @media (max-width: 950px) {
     .book {
-        /* Reduz o livro para caber na tela */
-        transform: scale(0.4) translateX(0);
-    }
-    
-    /* Move o livro para o centro da tela quando aberto */
-    .book:has(.paper.flipped) {
-        transform: scale(0.4) translateX(-450px);
+        /* Apenas aplica o zoom out. Sem empurrar para os lados! */
+        transform: scale(0.45); 
     }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
     .book {
-        /* Reduz um pouco mais para telas de celular pequenas */
-        transform: scale(0.35) translateX(0);
-    }
-    
-    .book:has(.paper.flipped) {
-        transform: scale(0.35) translateX(-450px);
+        /* Zoom ideal para caber perfeitamente no celular em pé */
+        transform: scale(0.38); 
     }
 }
