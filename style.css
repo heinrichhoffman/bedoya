@@ -1,0 +1,205 @@
+:root {
+    --bg-dark: #0a0a0a;
+    --paper: #f4f4f0;
+    --ink: #1a1a1a;
+    --blood-red: #8b0000;
+    --gold: linear-gradient(to bottom, #cfaf50 0%, #f8e58c 50%, #cfaf50 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'EB Garamond', serif;
+    overflow: hidden;
+}
+
+/* =========================================
+   SISTEMA 3D DO LIVRO
+========================================= */
+.book-scene { perspective: 3000px; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+.book { width: 900px; height: 650px; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
+
+#p1 { z-index: 3; }
+#p2 { z-index: 2; }
+#p3 { z-index: 1; }
+
+.paper { 
+    position: absolute; 
+    width: 50%; 
+    height: 100%; 
+    right: 0; 
+    transform-origin: left center; 
+    transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1); 
+    transform-style: preserve-3d; 
+}
+
+.paper.flipped { transform: rotateY(-180deg); }
+
+.front, .back { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.front { z-index: 2; }
+.back { 
+    z-index: 1; 
+    transform: rotateY(180deg); 
+    pointer-events: none; 
+}
+.flipped .front { pointer-events: none; }
+.flipped .back { pointer-events: auto; z-index: 2; }
+
+/* =========================================
+   ESTÉTICA
+========================================= */
+.cover-page {
+    background: #0f0f0f;
+    padding: 60px 30px;
+    align-items: center;
+    justify-content: space-between; /* Espalha melhor os itens sem os textos de colecionador */
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.8);
+    border: 1px solid #222;
+    cursor: pointer;
+}
+
+.book-title-main {
+    font-family: 'Great Vibes', cursive;
+    font-size: 5.5rem;
+    background: var(--gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.instrucao-capa { color: #555; font-family: 'Special Elite', monospace; font-size: 0.8rem; animation: pulsar 2s infinite alternate; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;}
+
+.page-side { 
+    background: var(--paper); 
+    padding: 35px; 
+    color: var(--ink); 
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+}
+
+.section-title { font-size: 1.3rem; border-bottom: 1px solid #333; margin-bottom: 15px; text-transform: uppercase; font-weight: bold; }
+.vertical-timeline { font-family: 'Special Elite', monospace; position: relative; padding-left: 20px; border-left: 2px solid #333; }
+.event { margin-bottom: 10px; font-size: 0.8rem; }
+.date { font-weight: bold; color: var(--blood-red); text-decoration: underline; margin-right: 5px; }
+.typewriter-highlight { background: rgba(139, 0, 0, 0.1); border-left: 3px solid var(--blood-red); padding: 5px; }
+
+/* RODAPÉ E BOTÕES */
+.page-footer { margin-top: auto; display: flex; position: relative; z-index: 100; padding-top: 15px; }
+.front .page-footer { justify-content: flex-end; } 
+.back .page-footer { justify-content: flex-start; } 
+
+.nav-btn { font-family: 'Special Elite', monospace; background: none; border: none; cursor: pointer; color: var(--blood-red); font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+.nav-btn:hover { text-decoration: underline; }
+.btn-book { width: 100%; padding: 10px; background: #222; color: #eee; border: none; font-family: 'Special Elite'; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+.btn-book:hover { background: var(--blood-red); }
+.divider { border: 0; border-top: 1px dashed #333; margin: 10px 0; }
+.aesthetic-decoration { font-size: 1.5rem; opacity: 0.2; text-align: center; }
+
+/* =========================================
+   ANIMAÇÃO DO JARDIM ENCANTADO
+========================================= */
+.flower-container { height: 180px; width: 100%; display: flex; justify-content: center; align-items: flex-end; }
+.flowers { transform: scale(0.4); transform-origin: bottom center; position: relative; filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.2)); }
+.flower { position: absolute; bottom: 0; transform-origin: bottom center; }
+.flower--1 { left: -60px; animation: moving 4s linear infinite; }
+.flower--2 { left: 0; animation: moving 5s linear infinite; }
+.flower--3 { left: 60px; animation: moving 3s linear infinite; }
+
+.flower__line { width: 1.5vmin; height: 50vmin; background: linear-gradient(to top, #063106, #116311); }
+.flower__leafs { position: relative; animation: bloom 2s backwards; }
+
+/* Pétalas de Veludo Red Rose */
+.flower__leaf { 
+    position: absolute; bottom: 0; left: 50%; 
+    width: 10vmin; height: 12vmin; 
+    border-radius: 50% 50% 20% 20%; 
+    background: linear-gradient(to top, #3a0000, #cc0000, #ff3333); 
+    box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.1); /* Efeito 3D aveludado */
+    transform-origin: bottom center; 
+}
+.flower__leaf--1 { transform: translate(-10%, 1%) rotateY(40deg) rotateX(-50deg); }
+.flower__leaf--2 { transform: translate(-50%, -4%) rotateX(40deg); }
+.flower__leaf--3 { transform: translate(-90%, 0%) rotateY(45deg) rotateX(50deg); }
+.flower__leaf--4 { transform: translate(-0%, 15%) rotateX(70deg); background: linear-gradient(to top, #2a0000, #990000); width: 10vmin; height: 10vmin; }
+
+.flower__white-circle { position: absolute; left: -2vmin; top: -2vmin; width: 4vmin; height: 2vmin; border-radius: 50%; background: #4a0000; box-shadow: 0 0 10px #ff0000; }
+
+/* Pó Mágico Subindo das Flores */
+.flower__light {
+    position: absolute;
+    bottom: 0vmin;
+    width: 1.5vmin;
+    height: 1.5vmin;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    filter: blur(0.3vmin);
+    animation: light-ans 4s linear infinite backwards;
+}
+.flower__light:nth-child(odd) { background-color: #ffb3b3; }
+
+.flower__light--1 { left: -2vmin; animation-delay: 1s; }
+.flower__light--2 { left: 3vmin; animation-delay: 0.5s; }
+.flower__light--3 { left: -6vmin; animation-delay: 0.3s; }
+.flower__light--4 { left: 6vmin; animation-delay: 0.9s; }
+.flower__light--5 { left: -1vmin; animation-delay: 1.5s; }
+.flower__light--6 { left: -4vmin; animation-delay: 3s; }
+.flower__light--7 { left: 3vmin; animation-delay: 2s; }
+.flower__light--8 { left: -6vmin; animation-delay: 3.5s; }
+
+/* Animações Keyframes */
+@keyframes bloom { 0% { transform: scale(0); } }
+@keyframes moving { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-2deg); } }
+@keyframes pulsar { from { opacity: 0.3; } to { opacity: 0.8; } }
+@keyframes light-ans {
+    0% { opacity: 0; transform: translateY(0vmin); }
+    25% { opacity: 1; transform: translateY(-5vmin) translateX(-2vmin); }
+    50% { opacity: 1; transform: translateY(-15vmin) translateX(2vmin); filter: blur(0.2vmin); }
+    75% { transform: translateY(-20vmin) translateX(-2vmin); filter: blur(0.2vmin); }
+    100% { transform: translateY(-30vmin); opacity: 0; filter: blur(1vmin); }
+}
+
+.not-loaded * { animation-play-state: paused !important; }
+
+
+/* =========================================
+   RESPONSIVIDADE (CELULAR E TABLET)
+========================================= */
+@media (max-width: 950px) {
+    .book {
+        /* Reduz o livro para caber na tela */
+        transform: scale(0.4) translateX(0);
+    }
+    
+    /* Move o livro para o centro da tela quando aberto */
+    .book:has(.paper.flipped) {
+        transform: scale(0.4) translateX(-450px);
+    }
+}
+
+@media (max-width: 450px) {
+    .book {
+        /* Reduz um pouco mais para telas de celular pequenas */
+        transform: scale(0.35) translateX(0);
+    }
+    
+    .book:has(.paper.flipped) {
+        transform: scale(0.35) translateX(-450px);
+    }
+}
